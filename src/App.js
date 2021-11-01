@@ -5,8 +5,8 @@ import OtherPage from './pages/OtherPage';
 
 function App() {
   return (
-      <CartPage />
-  //  <HomePage />
+      // <CartPage />
+   <HomePage />
   //  <OtherPage />
   );
 }
