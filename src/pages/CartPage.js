@@ -5,7 +5,7 @@ import Layout from '../components/Layout';
 import { shoppingCartContext, useShoppingCart } from '../context/shoppingCartContext';
 
 const CartPage = () => {
-  const { shoppingCart } = useShoppingCart();
+  const { shoppingCart, removeFromCart } = useShoppingCart();
 
   if(shoppingCart.length < 1) {
     return (
@@ -19,7 +19,7 @@ const CartPage = () => {
     <Layout>
       <Box>
         {shoppingCart.map(item => 
-          <Box>{item.title} - {item.price}</Box>
+          <Box>{item.title} - {item.price} {item.quantity} <button onClick={() => removeFromCart(item.id)}>remove me</button></Box>
         )}
       </Box>
     </Layout>

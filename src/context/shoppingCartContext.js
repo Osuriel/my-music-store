@@ -17,6 +17,7 @@ export const useShoppingCart = () => useContext(shoppingCartContext);
 
 
 const ADD_TO_CART_ACTION = "ADD_TO_CART";
+const REMOVE_FROM_CART_ACTION = "REMOVE_FROM_CART";
 
 
 // ACTION CREATORS
@@ -37,21 +38,78 @@ const addToCartActionCreator = ({
     }
 }};
 
+const removeToCartActionCreator = (itemId) => {
+  return ({
+    type: REMOVE_FROM_CART_ACTION,
+    payload: {
+      id: itemId
+    }
+  })
+}
+
 const reducer = (oldState, action) => {
 
   console.log('This will run when we dispatch an action');
   console.log('oldState: ', oldState);
   console.log('action: ', action);
+
+
+  // Shape we want for our shopping cart state
+  // const shoppingCartExample = [
+  //   {
+  //     id: '123',
+  //     quantity: 2,
+  //     price: 50000,
+  //     title: 'piano',
+  //     image: 'http://....',
+  //   }
+  // ];
   
   if(action.type === ADD_TO_CART_ACTION){
+    const { payload: { id, title, price, image } }= action;
+
+    const itemFound = oldState.find(item => item.id === action.payload.id);
+
+
+    if(itemFound){
+      return [
+        ...oldState.filter(item => item.id !== action.payload.id),
+        {
+          ...itemFound,
+          quantity: itemFound.quantity + 1,
+        }
+      ];
+    }
+    
     return [
       ...oldState,
       {
-        id: action.payload.id,
-        title: action.payload.title,
-        price: action.payload.price,
+        id,
+        title,
+        price,
+        image,
+        quantity: 1,
       }
     ]
+  }
+
+  if(action.type === REMOVE_FROM_CART_ACTION){
+
+    const itemFound = oldState.find(item => item.id === action.payload.id);
+
+    if(itemFound){
+      if(itemFound.quantity === 1){
+       return  oldState.filter(item => item.id !== action.payload.id)
+      }
+
+      return [
+        ...oldState.filter(item => item.id !== action.payload.id),
+        {
+          ...itemFound,
+          quantity: itemFound.quantity - 1,
+        }
+      ];
+    }
   }
 };
 
@@ -75,8 +133,14 @@ export const ShoppingCartContextProvider = (props) => {
     )
   }
 
+  const removeFromCart = (id) => {
+    dispatch(
+      removeToCartActionCreator(id)
+    )
+  };
+
   return (
-    <shoppingCartContext.Provider value={{shoppingCart, addItemToCart}}>
+    <shoppingCartContext.Provider value={{shoppingCart, addItemToCart, removeFromCart}}>
       {children}
     </shoppingCartContext.Provider>
   )
