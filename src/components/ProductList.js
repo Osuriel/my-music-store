@@ -1,23 +1,22 @@
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import Button from '@mui/material/Button';
-
 import {
   Card, CardActions, CardContent, CardHeader,
   CardMedia, IconButton, Typography
 } from '@mui/material';
+import Button from '@mui/material/Button';
 import { Box } from '@mui/system';
 import React from 'react';
-
+import { useShoppingCart } from '../context/shoppingCartContext';
 
 const ProductList = (props) => {
-  const {products, addItemToCart} = props;
+  const {products} = props;
+  
+  const { addItemToCart } =  useShoppingCart();
 
   return (
     <Box>
       {products.map(product => (
-        <Box mb={6}>
+        <Box mb={6} key={product.id}>
           <Card sx={{ maxWidth: 345 }}>
             <CardHeader
               action={

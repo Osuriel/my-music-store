@@ -1,13 +1,14 @@
 import './App.css';
+import { ShoppingCartContextProvider } from './context/shoppingCartContext';
 import CartPage from './pages/CartPage';
 import HomePage from './pages/HomePage';
 import OtherPage from './pages/OtherPage';
 
 function App() {
   return (
-      // <CartPage />
-   <HomePage />
-  //  <OtherPage />
+    <ShoppingCartContextProvider>
+       <CartPage />
+    </ShoppingCartContextProvider>
   );
 }
 
