@@ -1,33 +1,30 @@
-// Actions: simple javascript objects that tell us how the state should change. all actions must include a type propery.
-
-// {
-//   type: "indicates the type of action",
-// }
-
-
-
-// Hey I am the state reducer I get called everythime an action is dispatched.
-// The arguments react calls me with are the currentstate and the action that was just dispatched.
-// Whatever I return is the new state
-
-import axios from "axios";
-import { createContext, useContext, useEffect, useReducer } from "react";
-
-export const shoppingCartContext = createContext();
-export const useShoppingCart = () => useContext(shoppingCartContext);
-
-
-const ADD_TO_CART_ACTION = "ADD_TO_CART";
-const REMOVE_FROM_CART_ACTION = "REMOVE_FROM_CART";
-
-
-// ACTION CREATORS
-// Helper functions to easily create actions.
-
+  import { createContext, useContext, useReducer } from "react";
+  
+  export const shoppingCartContext = createContext();
+  export const useShoppingCart = () => useContext(shoppingCartContext);
+  
+  
+  // Actions: simple javascript objects that tell us how the state should change. all actions must include a type propery.
+  const ADD_TO_CART_ACTION = "ADD_TO_CART";
+  const REMOVE_FROM_CART_ACTION = "REMOVE_FROM_CART";
+  
+  
+  // ACTION CREATORS
+  // Helper functions to easily create actions.
+  
 const sortCartItems = (shoppingCartArray) => {
-  return shoppingCartArray.sort(function(x, y){
-    return x.timestamp - y.timestamp;
+  const sorted =  shoppingCartArray.sort(function(x, y){
+    console.log({x, y});
+    console.log({xTimestamp: x.timestamp});
+
+    console.log('number: ', y.timestamp - x.timestamp)
+
+    return y.timestamp - x.timestamp;
   })
+
+  console.log({shoppingCartArray, sorted })
+
+  return sorted;
 }
 
 const addToCartActionCreator = ({
@@ -56,6 +53,9 @@ const removeToCartActionCreator = (itemId) => {
   })
 }
 
+  // Hey I am the state reducer I get called everythime an action is dispatched.
+  // The arguments react calls me with are the currentstate and the action that was just dispatched.
+  // Whatever I return is the new state
 const reducer = (oldState, action) => {
 
   console.log('This will run when we dispatch an action');
@@ -70,6 +70,7 @@ const reducer = (oldState, action) => {
   //     quantity: 2,
   //     price: 50000,
   //     title: 'piano',
+  //     timestamp: 47389478394,
   //     image: 'http://....',
   //   }
   // ];
@@ -98,7 +99,7 @@ const reducer = (oldState, action) => {
         price,
         image,
         quantity: 1,
-        timeStamp: Date.now(),
+        timestamp: Date.now(),
       }
     ])
   }
@@ -124,10 +125,7 @@ const reducer = (oldState, action) => {
 };
 
 export const ShoppingCartContextProvider = (props) => {
-  const environmentVariable = process.env.NODE_ENV;
 
-  useEffect(() => axios.get(`http://someServer?q=${process.env.NODE_ENV}`), [])
-  
   const { children } = props;
 
   const [shoppingCart, dispatch] = useReducer(reducer, []);
