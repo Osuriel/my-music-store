@@ -1,5 +1,5 @@
 import { Box } from '@mui/system';
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 import ProductList from '../components/ProductList';
 import { fetchProducts } from '../fetchData';

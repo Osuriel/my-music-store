@@ -1,8 +1,5 @@
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
+  BrowserRouter as Router, Route, Switch
 } from "react-router-dom";
 import './App.css';
 import { ShoppingCartContextProvider } from './context/shoppingCartContext';

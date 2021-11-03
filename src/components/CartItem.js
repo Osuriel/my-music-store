@@ -14,12 +14,12 @@ const CartItem = (props) => {
         <Box>
             <CardMedia
               component="img"
-              sx={{ width: 80, p:1 }}
+              sx={{ width: 80, height: 80, p:1 }}
               image={item.image}
               alt="Live from space album cover"
               />
         </Box>
-        <Box px={2} display="flex" flexDirection="column" justifyContent="center">
+        <Box px={2} display="flex" flexDirection="column" justifyContent="center" flexGrow={1}>
           <Box>
             <Typography fontWeight="bold">
               {item.title}

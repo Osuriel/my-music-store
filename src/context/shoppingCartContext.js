@@ -1,4 +1,4 @@
-  import { createContext, useContext, useReducer } from "react";
+  import { createContext, useContext, useEffect, useReducer } from "react";
   
   export const shoppingCartContext = createContext();
   export const useShoppingCart = () => useContext(shoppingCartContext);
@@ -7,6 +7,7 @@
   // Actions: simple javascript objects that tell us how the state should change. all actions must include a type propery.
   const ADD_TO_CART_ACTION = "ADD_TO_CART";
   const REMOVE_FROM_CART_ACTION = "REMOVE_FROM_CART";
+  const EMPTY_CART_ACTION = "EMPTY_CART";
   
   
   // ACTION CREATORS
@@ -25,6 +26,15 @@ const sortCartItems = (shoppingCartArray) => {
   console.log({shoppingCartArray, sorted })
 
   return sorted;
+}
+
+const getShoppingCartTotal = (shoppingCart) => {
+  const total = shoppingCart.reduce(
+    (accumulator, item, index, array) => {
+      return accumulator + (item.price * item.quantity)
+    }, 0);
+
+  return total;
 }
 
 const addToCartActionCreator = ({
@@ -58,22 +68,9 @@ const removeToCartActionCreator = (itemId) => {
   // Whatever I return is the new state
 const reducer = (oldState, action) => {
 
-  console.log('This will run when we dispatch an action');
-  console.log('oldState: ', oldState);
-  console.log('action: ', action);
-
-
-  // Shape we want for our shopping cart state
-  // const shoppingCartExample = [
-  //   {
-  //     id: '123',
-  //     quantity: 2,
-  //     price: 50000,
-  //     title: 'piano',
-  //     timestamp: 47389478394,
-  //     image: 'http://....',
-  //   }
-  // ];
+  if(action.type === EMPTY_CART_ACTION){
+    return [];
+  }
   
   if(action.type === ADD_TO_CART_ACTION){
     const { payload: { id, title, price, image } }= action;
@@ -128,7 +125,19 @@ export const ShoppingCartContextProvider = (props) => {
 
   const { children } = props;
 
-  const [shoppingCart, dispatch] = useReducer(reducer, []);
+  const cartInLocalStorage = window.localStorage.getItem('shoppingCart');
+
+  const initialShoppingCart =
+    cartInLocalStorage
+      ? JSON.parse(cartInLocalStorage)
+      : []
+    ;
+
+  const [shoppingCart, dispatch] = useReducer(reducer, initialShoppingCart);
+
+  useEffect(() => {
+      window.localStorage.setItem('shoppingCart', JSON.stringify(shoppingCart))
+  }, [shoppingCart])
 
   const addItemToCart = ({
     id,
@@ -152,8 +161,20 @@ export const ShoppingCartContextProvider = (props) => {
     )
   };
 
+  const emptyCart = () => {
+    dispatch({ type: EMPTY_CART_ACTION })
+  }
+
   return (
-    <shoppingCartContext.Provider value={{shoppingCart, addItemToCart, removeFromCart}}>
+    <shoppingCartContext.Provider
+      value={{
+        shoppingCart,
+        addItemToCart,
+        removeFromCart,
+        emptyCart,
+        total: getShoppingCartTotal(shoppingCart),
+      }}
+    >
       {children}
     </shoppingCartContext.Provider>
   )
