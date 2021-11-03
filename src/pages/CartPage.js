@@ -1,5 +1,6 @@
 import { Box } from '@mui/system';
 import React, { useContext } from 'react';
+import CartItem from '../components/CartItem';
 import Footer from '../components/Footer';
 import Layout from '../components/Layout';
 import { shoppingCartContext, useShoppingCart } from '../context/shoppingCartContext';
@@ -19,7 +20,9 @@ const CartPage = () => {
     <Layout>
       <Box>
         {shoppingCart.map(item => 
-          <Box>{item.title} - {item.price} {item.quantity} <button onClick={() => removeFromCart(item.id)}>remove me</button></Box>
+          <Box key={item.id}>
+            <CartItem item={item} />
+          </Box>
         )}
       </Box>
     </Layout>

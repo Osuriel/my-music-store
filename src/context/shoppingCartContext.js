@@ -10,7 +10,8 @@
 // The arguments react calls me with are the currentstate and the action that was just dispatched.
 // Whatever I return is the new state
 
-import { createContext, useContext, useReducer } from "react";
+import axios from "axios";
+import { createContext, useContext, useEffect, useReducer } from "react";
 
 export const shoppingCartContext = createContext();
 export const useShoppingCart = () => useContext(shoppingCartContext);
@@ -23,10 +24,17 @@ const REMOVE_FROM_CART_ACTION = "REMOVE_FROM_CART";
 // ACTION CREATORS
 // Helper functions to easily create actions.
 
+const sortCartItems = (shoppingCartArray) => {
+  return shoppingCartArray.sort(function(x, y){
+    return x.timestamp - y.timestamp;
+  })
+}
+
 const addToCartActionCreator = ({
   id,
   title,
   price,
+  image,
 }) => {
   console.log('product id: ', id)
   return {
@@ -35,6 +43,7 @@ const addToCartActionCreator = ({
       id,
       title,
       price,
+      image,
     }
 }};
 
@@ -72,16 +81,16 @@ const reducer = (oldState, action) => {
 
 
     if(itemFound){
-      return [
+      return sortCartItems([
         ...oldState.filter(item => item.id !== action.payload.id),
         {
           ...itemFound,
           quantity: itemFound.quantity + 1,
         }
-      ];
+      ]);
     }
     
-    return [
+    return sortCartItems([
       ...oldState,
       {
         id,
@@ -89,8 +98,9 @@ const reducer = (oldState, action) => {
         price,
         image,
         quantity: 1,
+        timeStamp: Date.now(),
       }
-    ]
+    ])
   }
 
   if(action.type === REMOVE_FROM_CART_ACTION){
@@ -99,21 +109,24 @@ const reducer = (oldState, action) => {
 
     if(itemFound){
       if(itemFound.quantity === 1){
-       return  oldState.filter(item => item.id !== action.payload.id)
+       return  sortCartItems(oldState.filter(item => item.id !== action.payload.id))
       }
 
-      return [
+      return sortCartItems([
         ...oldState.filter(item => item.id !== action.payload.id),
         {
           ...itemFound,
           quantity: itemFound.quantity - 1,
         }
-      ];
+      ]);
     }
   }
 };
 
 export const ShoppingCartContextProvider = (props) => {
+  const environmentVariable = process.env.NODE_ENV;
+
+  useEffect(() => axios.get(`http://someServer?q=${process.env.NODE_ENV}`), [])
   
   const { children } = props;
 
@@ -123,12 +136,14 @@ export const ShoppingCartContextProvider = (props) => {
     id,
     title,
     price,
+    image,
   }) => {
     dispatch(
       addToCartActionCreator({
         id,
         title,
         price,
+        image,
       })
     )
   }

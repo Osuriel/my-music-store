@@ -44,7 +44,7 @@ const ProductList = (props) => {
             <Box sx={{display: 'flex', justifyContent: 'space-between', width: "100%"}}>
                 <Button variant="text"
                 onClick={
-                  () => addItemToCart({ id: product.id, title: product.title, price: product.price})}
+                  () => addItemToCart({ id: product.id, title: product.title, price: product.price, image: product.image})}
                   >
                     Add to cart
                   </Button>
