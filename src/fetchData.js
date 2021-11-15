@@ -22,7 +22,7 @@ const productList = [
   },
 ];
 
-const users = [
+var users = [
   {
     id: '111',
     email: 'john@email.com',
@@ -32,6 +32,32 @@ const users = [
     favoriteItems: ['234']
   }
 ];
+
+
+export const editFavorites = (userId, favorites) => new Promise((resolve, reject) => {
+
+  console.log('fetching Data from imaginary products database')
+  setTimeout(() => {
+      try {
+          // fetchingData from imaginary database
+
+          const user = users.find(user => user.id === userId);
+
+          const arrayOfOtherUsers = users.filter(user => user.id !== userId);
+
+          const userWithUpdatedFavorites = {...user, favoriteItems: favorites};
+
+          users = [...arrayOfOtherUsers, userWithUpdatedFavorites]
+
+           resolve(userWithUpdatedFavorites);
+
+          throw new Error("Incorrect username or password")
+      } catch (error) {
+          reject(error);
+      }
+  }, 1000);
+});
+
 
 export const logInUser = (email, password) => new Promise((resolve, reject) => {
 

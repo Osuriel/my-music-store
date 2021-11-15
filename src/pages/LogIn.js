@@ -6,28 +6,32 @@ import CartItem from '../components/CartItem';
 import Layout from '../components/Layout';
 import { useShoppingCart } from '../context/shoppingCartContext';
 import ReplayIcon from '@mui/icons-material/Replay';
-import { logInUser } from '../fetchData';
+import { editFavorites, logInUser } from '../fetchData';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { logInActionCreator } from '../redux';
 
-const LoginPage = () => {
-  
+const Form = (props) => {
+  const { setError } = props;
+
   const [{email, password}, setCredentials] = useState({ email: '', password: '' });
+
   const dispatch = useDispatch();
 
   const onSubmit = () => {
     logInUser(email, password)
-      .then(user => dispatch({type: "LOG_IN", payload: {user: user}}))
+      .then(user => dispatch(logInActionCreator(user)))
       .catch(error => {
         console.log('error: ', error);
+        setError(error.message)
       })
       
   }
-
+  
   return (
-    <Layout>
-       <Box>
+    <Box>
         <Box mb={4}>
           <TextField
             id="standard-basic"
@@ -59,6 +63,20 @@ const LoginPage = () => {
           <Button onClick={onSubmit}>log in</Button>
         </Box>
        </Box>
+  )
+}
+
+const LoginPage = () => {
+  const [error, setError] = useState();
+  const user = useSelector(state => state.user);
+
+  return (
+    <Layout>
+      <button onClick={() => editFavorites('111', ['234','123']).then(updatedUser => console.log('upadatedUser: ', updatedUser))}>
+        editFavorites
+      </button>
+      {error}
+       {user ? `Welcome back ${user.name}!` : <Form setError={setError} />}
     </Layout>
   )
 };
