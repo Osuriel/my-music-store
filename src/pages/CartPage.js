@@ -6,9 +6,12 @@ import CartItem from '../components/CartItem';
 import Layout from '../components/Layout';
 import { useShoppingCart } from '../context/shoppingCartContext';
 import ReplayIcon from '@mui/icons-material/Replay';
+import { logInUser } from '../fetchData';
 
 const CartPage = () => {
   const { shoppingCart, total, emptyCart } = useShoppingCart();
+
+
 
   if(shoppingCart.length < 1) {
     return (
