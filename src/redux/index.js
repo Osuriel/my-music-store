@@ -18,7 +18,6 @@ export const updateUserFavoritesActionCreator = (favoriteItems) => {
 
 
 const reducer = (state, action) => {
-
   if(action.type === LOG_IN_ACTION){
     const { payload } = action;
 

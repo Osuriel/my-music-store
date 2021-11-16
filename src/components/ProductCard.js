@@ -13,39 +13,26 @@ const ProductCard = (props) => {
   const dispatch = useDispatch();
 
   const user = useSelector(state => state.user);
-  
-
-  // const addToFavorites = () => editFavorites (user.id, [...user.favoriteItems, product.id])
-  // .then(user => {
-  //   console.log('updatedUser: ', user)
-  //   dispatch({
-  //     type: 'mymusicstore.com/UPDATE_USER_FAVORITES',
-  //     payload: { favoriteItems: ["234"] }
-  //   });
-  // })
-
-  const addToFavorites = () => {
-    dispatch({
-      type: 'mymusicstore.com/UPDATE_USER_FAVORITES',
-      payload: { favoriteItems: ["234"] }
-    });
-  };
 
   console.log('user: ', user)
   
-  const onSubmit = () => {
+  const addToFavorites = () => {
     console.log('user: ', user)
     editFavorites(user.id, [...user.favoriteItems, product.id])
-      .then(user => dispatch(updateUserFavoritesActionCreator(user)))
+      .then(user => dispatch(updateUserFavoritesActionCreator(user.favoriteItems)))
       .catch(error => {
         console.log('error: ', error);
-        // setError(error.message)
       })
       
   }
   
-  const removeToFavorites = () => editFavorites (user.id, user.favoriteItems.filter(item => item !== product.id))
-  .then(user => console.log('updatedUser: ', user))
+  const removefromFavorites = () => editFavorites(user.id, user.favoriteItems.filter(item => item !== product.id))
+  .then(user => dispatch(updateUserFavoritesActionCreator(user.favoriteItems)))
+  .catch(error => {
+    console.log('error: ', error);
+  })
+
+  const isItemAUserFavorite = user && user.favoriteItems.includes(product.id);
 
   console.log();
   return (
@@ -80,9 +67,16 @@ const ProductCard = (props) => {
             >
               Add to cart
             </Button>
-          <IconButton aria-label="add to favorites" onClick={onSubmit}>
-            <FavoriteIcon />
-          </IconButton>
+            {isItemAUserFavorite
+            ? (
+            <IconButton aria-label="add to favorites" onClick={removefromFavorites}>
+              <FavoriteIcon style={{fill: "red"}}/>
+            </IconButton>
+            ) : (
+            <IconButton aria-label="add to favorites" onClick={addToFavorites}>
+              <FavoriteIcon />
+            </IconButton>
+            )}
         </Box>
       </CardActions>
     </Card>
