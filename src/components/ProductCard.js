@@ -4,13 +4,14 @@ import { useShoppingCart } from '../context/shoppingCartContext';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { editFavorites } from '../fetchData';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateUserFavoritesActionCreator } from '../redux';
+import { addToCartActionCreator, updateUserFavoritesActionCreator } from '../redux';
 
 const ProductCard = (props) => {
   const {product} = props;
-  const { addItemToCart } =  useShoppingCart();
-
+  // const { addItemToCart } =  useShoppingCart();
   const dispatch = useDispatch();
+  
+  const addItemToCart = (productToAdd) => dispatch(addToCartActionCreator(productToAdd))
 
   const user = useSelector(state => state.user);
 

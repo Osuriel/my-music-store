@@ -7,9 +7,12 @@ import Layout from '../components/Layout';
 import { useShoppingCart } from '../context/shoppingCartContext';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { logInUser } from '../fetchData';
+import { useSelector } from 'react-redux';
 
 const CartPage = () => {
-  const { shoppingCart, total, emptyCart } = useShoppingCart();
+  const { total, emptyCart } = useShoppingCart();
+  
+  const shoppingCart = useSelector(state => state.shoppingCart);
 
 
 
