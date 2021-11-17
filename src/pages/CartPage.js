@@ -8,9 +8,11 @@ import { useShoppingCart } from '../context/shoppingCartContext';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { logInUser } from '../fetchData';
 import { useSelector } from 'react-redux';
+import { useReduxShoppingCart } from '../redux/shoppingCartState';
 
 const CartPage = () => {
-  const { total, emptyCart } = useShoppingCart();
+
+  const { total, emptyCart } =  useReduxShoppingCart();
   
   const shoppingCart = useSelector(state => state.shoppingCart);
 

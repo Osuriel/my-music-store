@@ -11,7 +11,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { logInActionCreator } from '../redux';
+import { logInActionCreator } from '../redux/userState';
 
 const Form = (props) => {
   const { setError } = props;

@@ -1,17 +1,18 @@
 import { CardHeader, Card, CardMedia, Typography,CardContent, Box, CardActions, Button, IconButton } from '@mui/material';
 import React from 'react';
-import { useShoppingCart } from '../context/shoppingCartContext';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { editFavorites } from '../fetchData';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCartActionCreator, updateUserFavoritesActionCreator } from '../redux';
+import { addToCartActionCreator, useReduxShoppingCart } from '../redux/shoppingCartState';
+import { updateUserFavoritesActionCreator } from '../redux/userState';
 
 const ProductCard = (props) => {
   const {product} = props;
-  // const { addItemToCart } =  useShoppingCart();
   const dispatch = useDispatch();
+
+  const { addItemToCart } =  useReduxShoppingCart();
   
-  const addItemToCart = (productToAdd) => dispatch(addToCartActionCreator(productToAdd))
+  
 
   const user = useSelector(state => state.user);
 
