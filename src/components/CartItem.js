@@ -1,11 +1,11 @@
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Card, CardMedia, IconButton, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
-import { useShoppingCart } from '../context/shoppingCartContext';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { useReduxShoppingCart } from '../redux/shoppingCartState';
 
 const CartItem = (props) => {
-  const { removeFromCart } = useShoppingCart();
+  const { removeFromCart } = useReduxShoppingCart();
   const { item } = props;
 
   return (

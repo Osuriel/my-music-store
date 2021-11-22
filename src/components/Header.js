@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import {
   Link
 } from "react-router-dom";
+import CartItemCount from './CartItemCount';
 
 const Header = () => {
 
@@ -39,6 +40,7 @@ const Header = () => {
             <ShoppingCartIcon />
           </IconButton>
         </Link>
+        <CartItemCount />
     </Toolbar>
   </AppBar>
   )

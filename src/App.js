@@ -2,7 +2,6 @@ import {
   BrowserRouter as Router, Route, Switch
 } from "react-router-dom";
 import './App.css';
-import { ShoppingCartContextProvider } from './context/shoppingCartContext';
 import CartPage from './pages/CartPage';
 import HomePage from './pages/HomePage';
 import { createStore } from 'redux'
@@ -15,7 +14,6 @@ function App() {
 
   return (
     <ReduxProvider store={store}>
-      <ShoppingCartContextProvider>
         <Router>
           {/* A <Switch> looks through its children <Route>s and
               renders the first one that matches the current URL. */}
@@ -31,7 +29,6 @@ function App() {
             </Route>
           </Switch>
         </Router>
-      </ShoppingCartContextProvider>
     </ReduxProvider>
   );
 }

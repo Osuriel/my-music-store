@@ -4,7 +4,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import CartItem from '../components/CartItem';
 import Layout from '../components/Layout';
-import { useShoppingCart } from '../context/shoppingCartContext';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { editFavorites, logInUser } from '../fetchData';
 import { useEffect } from 'react';
@@ -20,14 +19,11 @@ const Form = (props) => {
 
   const dispatch = useDispatch();
 
+
   const onSubmit = () => {
-    logInUser(email, password)
-      .then(user => dispatch(logInActionCreator(user)))
-      .catch(error => {
-        console.log('error: ', error);
-        setError(error.message)
-      })
-      
+      dispatch(
+        logInActionCreator({email, password})
+        );      
   }
   
   return (

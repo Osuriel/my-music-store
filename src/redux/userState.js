@@ -1,10 +1,21 @@
+import { logInUser } from "../fetchData";
+
 // ACTIONS
 const LOG_IN_ACTION = "mymusicstore.com/LOG_IN";
 
 const UPDATE_USER_FAVORITES = "mymusicstore.com/UPDATE_USER_FAVORITES";
 
 // ACTION CREATORS
-export const logInActionCreator = (user) => ({type: LOG_IN_ACTION, payload: {user: user}});
+export const logInActionCreator = ({email, password}) => 
+  async (dispatch, getState) => {
+    console.log('logInActionCreator running');
+    try {
+      const user = await logInUser(email, password);
+      dispatch({type: LOG_IN_ACTION, payload: {user: user}});
+    } catch(error){
+      console.log('error');
+    }
+  }
 
 export const updateUserFavoritesActionCreator = (favoriteItems) => {
   return {

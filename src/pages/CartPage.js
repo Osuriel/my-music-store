@@ -4,7 +4,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import CartItem from '../components/CartItem';
 import Layout from '../components/Layout';
-import { useShoppingCart } from '../context/shoppingCartContext';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { logInUser } from '../fetchData';
 import { useSelector } from 'react-redux';

@@ -1,6 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import { combineReducers, createStore } from "redux";
 
+const saveShoppingCartInLocalStorage = (shoppingCart) =>
+window.localStorage.setItem('shoppingCart', JSON.stringify(shoppingCart))
+
 const sortCartItems = (shoppingCartArray) => {
   const sorted =  shoppingCartArray.sort(function(x, y){
     console.log({x, y});
@@ -29,7 +32,7 @@ const getShoppingCartTotal = (shoppingCart) => {
 // ACTIONS
 const ADD_TO_CART_ACTION = "ADD_TO_CART";
 const REMOVE_FROM_CART_ACTION = "REMOVE_FROM_CART";
-const EMPTY_CART_ACTION = "EMPTY_CART";
+export const EMPTY_CART_ACTION = "EMPTY_CART";
 
 
 // ACTION CREATORS
@@ -157,6 +160,8 @@ const removeFromCart = (id) => {
   }
 
   const shoppingCart = useSelector(state => state.shoppingCart);
+  
+  saveShoppingCartInLocalStorage(shoppingCart)
   
   return {
     addItemToCart,
