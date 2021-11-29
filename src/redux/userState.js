@@ -1,7 +1,7 @@
 import { logInUser } from "../fetchData";
 
 // ACTIONS
-const LOG_IN_ACTION = "mymusicstore.com/LOG_IN";
+export const LOG_IN_ACTION = "mymusicstore.com/LOG_IN";
 
 const UPDATE_USER_FAVORITES = "mymusicstore.com/UPDATE_USER_FAVORITES";
 

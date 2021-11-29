@@ -68,9 +68,6 @@ const LoginPage = () => {
 
   return (
     <Layout>
-      <button onClick={() => editFavorites('111', ['234','123']).then(updatedUser => console.log('upadatedUser: ', updatedUser))}>
-        editFavorites
-      </button>
       {error}
        {user ? `Welcome back ${user.name}!` : <Form setError={setError} />}
     </Layout>

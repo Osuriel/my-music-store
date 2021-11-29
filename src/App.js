@@ -4,10 +4,10 @@ import {
 import './App.css';
 import CartPage from './pages/CartPage';
 import HomePage from './pages/HomePage';
-import { createStore } from 'redux'
 import { Provider as ReduxProvider } from 'react-redux'
 import store from "./redux";
 import LoginPage from "./pages/LogIn";
+import RegisterUserPage from "./pages/RegisterUserPage";
 
 function App() {
   
@@ -23,6 +23,9 @@ function App() {
             </Route>
             <Route path="/login">
               <LoginPage />
+            </Route>
+            <Route path="/register-user">
+              <RegisterUserPage />
             </Route>
             <Route path="/">
               <HomePage />
