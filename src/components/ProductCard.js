@@ -3,7 +3,7 @@ import React from 'react';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { editFavorites } from '../fetchData';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCartActionCreator, useReduxShoppingCart } from '../redux/shoppingCartState';
+import { useReduxShoppingCart } from '../redux/shoppingCartState';
 import { updateUserFavoritesActionCreator } from '../redux/userState';
 
 const ProductCard = (props) => {
@@ -28,15 +28,17 @@ const ProductCard = (props) => {
       
   }
   
-  const removefromFavorites = () => editFavorites(user.id, user.favoriteItems.filter(item => item !== product.id))
-  .then(user => dispatch(updateUserFavoritesActionCreator(user.favoriteItems)))
-  .catch(error => {
-    console.log('error: ', error);
-  })
+  const removefromFavorites = () => {
+    editFavorites(user.id, user.favoriteItems.filter(item => item !== product.id))
+    .then(user => dispatch(updateUserFavoritesActionCreator(user.favoriteItems)))
+    .catch(error => {
+      console.log('error: ', error);
+    })
+  }
+    
 
   const isItemAUserFavorite = user && user.favoriteItems.includes(product.id);
 
-  console.log();
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardHeader

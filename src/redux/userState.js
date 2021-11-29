@@ -35,7 +35,7 @@ export const userReducer = (state = null, action) => {
 
   if(action.type === UPDATE_USER_FAVORITES){
 
-    return {...state.user, favoriteItems: action.payload.favoriteItems }
+    return {...state, favoriteItems: action.payload.favoriteItems }
   }
 
   return state;
